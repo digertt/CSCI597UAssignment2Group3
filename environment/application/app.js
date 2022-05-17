@@ -34,8 +34,7 @@ app.post("/users", wrapAsync(async (req, res) => {
   const user = await createCognitoUser(
     req.body.username,
     req.body.password,
-    req.body.email,
-    req.body.phoneNumber
+    req.body.email
   );
   res.json(user);
 }));
@@ -47,7 +46,11 @@ app.post("/games", wrapAsync(async (req, res) => {
     throw new Error(validated.message);
   }
   const token = await verifyToken(req.header("Authorization"));
-  const opponent = await fetchUserByUsername(req.body.opponent);
+  const opponent = await fetchUserByEmail(req.body.opponent);
+  if (opponent == undefined) {
+    // if the opponent doesnt have an account, 
+    opponent = {email: req.body.opponent }
+  }
   const game = await createGame({
     creator: token["cognito:username"],
     opponent: opponent
@@ -83,7 +86,7 @@ app.post("/games/:gameId", wrapAsync(async (req, res) => {
   const opponent = await fetchUserByUsername(opponentUsername);
   const mover = {
     username: token['cognito:username'],
-    phoneNumber: token['phone_number']
+    email: token['email']
   }
   await handlePostMoveNotification({ game, mover, opponent })
   res.json(game);

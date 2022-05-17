@@ -7,17 +7,19 @@ const handlePostMoveNotification = async ({ game, mover, opponent }) => {
   // Handle when game is finished
   if (game.heap1 == 0 && game.heap2 == 0 && game.heap3 == 0) {
     const winnerMessage = `You beat ${mover.username} in a game of Nim!`
+    const winnerSubject = `You won!`
     const loserMessage = `Ahh, you lost to ${opponent.username} in Nim.`
+    const loserSubject = `You lost!`
     await Promise.all([
-      sendMessage({ phoneNumber: opponent.phoneNumber, message: winnerMessage }),
-      sendMessage({ phoneNumber: mover.phoneNumber, message: loserMessage })
+      sendMessage({ email: opponent.email, message: winnerMessage, subject: winnerSubject }),
+      sendMessage({ email: mover.email, message: loserMessage, subject: loserSubject })
     ])
 
     return
   }
 
   const message = `${mover.username} has moved. It's your turn next in Game ID ${game.gameId}!`
-  await sendMessage({ phoneNumber: opponent.phoneNumber, message })
+  await sendMessage({ email: opponent.email, message, subject: `It's your turn` })
 };
 
 module.exports = handlePostMoveNotification;
