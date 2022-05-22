@@ -7,6 +7,7 @@ const performMove = async ({ gameId, user, changedHeap, changedHeapValue }) => {
   if (changedHeapValue > 9 || changedHeapValue < 1) {
     throw new Error('Cannot set heap value below 0')
   }
+  changedHeapValue = changedHeapValue - 1
   if ('user1 = :user')
     updatemark = 'X'
   else
@@ -16,11 +17,11 @@ const performMove = async ({ gameId, user, changedHeap, changedHeapValue }) => {
     Key: { 
       gameId: gameId
     },
-    UpdateExpression: `SET lastMoveBy = :user, ${changedHeap} = :changedHeapValue`,
+    UpdateExpression: `SET lastMoveBy = :user, ${changedHeap[changedHeapValue]} = :updatemark`,
     ConditionExpression: `(user1 = :user OR user2 = :user) AND lastMoveBy <> :user AND ${changedHeap[changedHeapValue]} == ' '`,
     ExpressionAttributeValues: {
       ':user': user,
-      ':changedHeapValue': updatemark,
+      ':changedHeapValue': changedHeapValue,
     },
     ReturnValues: 'ALL_NEW'
   }
