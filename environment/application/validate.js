@@ -11,8 +11,7 @@ const validateCreateUser = body => {
   const schema = Joi.object().keys({
     email: Joi.string().email({ minDomainAtoms: 2 }).required(),
     password: Joi.string().min(8).max(20).required(),
-    username: Joi.string().min(4).max(20).required(),
-    phoneNumber: Joi.string().min(4).max(20).required()
+    username: Joi.string().min(4).max(20).required()
   });
 
   const result = Joi.validate(body, schema);
@@ -30,7 +29,7 @@ const validateCreateUser = body => {
 // Request body validation for the POST /games endpoint
 const validateCreateGame = body => {
   const schema = Joi.object().keys({
-    opponent: Joi.string().min(4).max(20).required()
+    opponent: Joi.string().email({ minDomainAtoms: 2 }).required()
   });
 
   const result = Joi.validate(body, schema);
@@ -48,8 +47,8 @@ const validateCreateGame = body => {
 // Request body validation for the POST /games/:gameIdendpoint
 const validatePerformMove = body => {
   const schema = Joi.object().keys({
-    changedHeap: Joi.string().valid('heap1', 'heap2', 'heap3').required(),
-    changedHeapValue: Joi.number().min(0).max(4).required()
+    board: Joi.string().valid('X', 'O').required(),
+    coords: Joi.number().min(1).max(9).required()
   });
 
   const result = Joi.validate(body, schema);
