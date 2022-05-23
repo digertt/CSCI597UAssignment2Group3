@@ -5,19 +5,28 @@ const sendMessage = require('./sendMessage')
 
 const handlePostMoveNotification = async ({ game, mover, opponent }) => {
   // Handle when game is finished
-  if (game.heap1 == 0 && game.heap2 == 0 && game.heap3 == 0) {
+  if ((game.board[0] == game.board[1] == game.board[2])
+      || (game.board[3] == game.board[4] == game.board[5])
+      || (game.board[6] == game.board[7] == game.board[8])
+      || (game.board[0] == game.board[3] == game.board[6])
+      || (game.board[1] == game.board[4] == game.board[7])
+      || (game.board[2] == game.board[5] == game.board[8])
+      || (game.board[0] == game.board[4] == game.board[8])
+      || (game.board[2] == game.board[4] == game.board[6])) {
     const winnerMessage = `You beat ${mover.username} in a game of Nim!`
+    const winnerSubject = `You won!`
     const loserMessage = `Ahh, you lost to ${opponent.username} in Nim.`
+    const loserSubject = `You lost!`
     await Promise.all([
-      sendMessage({ phoneNumber: opponent.phoneNumber, message: winnerMessage }),
-      sendMessage({ phoneNumber: mover.phoneNumber, message: loserMessage })
+      sendMessage({ email: opponent.email, message: winnerMessage, subject: winnerSubject }),
+      sendMessage({ email: mover.email, message: loserMessage, subject: loserSubject })
     ])
 
     return
   }
 
   const message = `${mover.username} has moved. It's your turn next in Game ID ${game.gameId}!`
-  await sendMessage({ phoneNumber: opponent.phoneNumber, message })
+  await sendMessage({ email: opponent.email, message, subject: `It's your turn` })
 };
 
 module.exports = handlePostMoveNotification;
