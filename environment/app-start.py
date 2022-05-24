@@ -3,14 +3,15 @@ import requests
 import json
 
 def main():
-    curUser = NULL
-    curGame = NULL
+    #curUser = null
+    #curGame = null
     startLoop = False
+    apiToken = "" 
     resp = requests.get("some-url")
     if resp != 200:
         print ("error connecting to service")
         return
-
+    curUserData = ""
     while startLoop == False :
         print("Welcome! Please enter \"1\" to sign in or \"2\" to sign up!")
         init_select = input(">")
@@ -23,9 +24,10 @@ def main():
             usrPassword = input(">")
             usrDat = {"email":" usrEmail", "password":"usrPassword"}
             usrDatJson = json.dumps(usrDat)
-            payload = {"json_payload":usrDatJson, 'apikey': "Do we need this?"}
-            curUser = requests.get('some url/users', data = payload)
-            requests.post()
+            payload = {"json_payload":usrDatJson}
+            curUser = requests.post('some url/users', data = payload)
+            curUserData = json.load(curUser.text)
+            
         elif init_select == "2":
             #sign up
             startLoop = True
@@ -35,12 +37,13 @@ def main():
             usrPassword = input(">")
             usrDat = {"email":" usrEmail", "password":"usrPassword"}
             usrDatJson = json.dumps(usrDat)
-            payload = {"json_payload":usrDatJson, 'apikey': "Do we need this?"}
-            curUser = requests.get('some url/login', data = payload)
+            payload = {"json_payload":usrDatJson}
+            curUser = requests.post('some url/login', data = payload)
+            curUserData = json.load(curUser.text)
         else:
             print("Please enter a valid selection")
     menuLoop = False
-    while menuLoop == false:
+    while menuLoop == False:
         
         print("Enter 1 to start a new game, or 2 to access an existing game")
         menu_select = input(">")
@@ -51,13 +54,17 @@ def main():
             gameDat = {"opponent" : opponent}
             usrDatJson = json.dumps(usrDat)
             payload = {"json_payload":usrDatJson, 'apikey': "Do we need this?"}
-            curGame = requests.get('some url/games', data = payload)
+            curGame = requests.post('some url/games', data = payload, header = {"authorization" : curUserData["idToken"]})
+            curGameData = json.load(curGame.text)
+            
         elif menu_select == 2:
             menuLoop == True
             print("Enter game id: ")
             gameId = input(">")
-            curGame = requests.get('some url/games', data = payload)
-    
+            curGame = requests.post('some url/games/' + gameId, header = {"authorization" : curUserData["idToken"]})
+            curGameData = json.load(curGame.text)
+        else:
+            print("Please enter a valid selection")
      
 gameLoop = False
 entryLoop = False
