@@ -36,7 +36,8 @@ POLICY=$(aws iam put-role-policy \
           "Action": [
               "dynamodb:GetItem",
               "dynamodb:PutItem",
-              "dynamodb:UpdateItem"
+              "dynamodb:UpdateItem",
+              "dynamodb:DeleteItem"
           ],
           "Resource": "*"
       },

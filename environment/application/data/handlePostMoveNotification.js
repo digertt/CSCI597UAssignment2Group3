@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 const sendMessage = require('./sendMessage')
+const AWS = require("aws-sdk");
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
 const handlePostMoveNotification = async ({ game, mover, opponent }) => {
@@ -24,7 +25,7 @@ const handlePostMoveNotification = async ({ game, mover, opponent }) => {
     ])
     try {
         const resp = await documentClient.delete({TableName: 'turn-based-game-a2', Key: {gameId: game.gameId}}).promise();
-    } catch {
+    } catch (error) {
         console.log("Error looking up game: ", error.message);
         throw new Error('Could not delete game')
     }
@@ -38,11 +39,10 @@ const handlePostMoveNotification = async ({ game, mover, opponent }) => {
     ])
     try {
         const resp = await documentClient.delete({TableName: 'turn-based-game-a2', Key: {gameId: game.gameId}}).promise();
-    } catch {
+    } catch (error) {
         console.log("Error looking up game: ", error.message);
         throw new Error('Could not delete game')
     }
-
   } else {
     const message = `${mover.username} has moved. It's your turn next in Game ID ${game.gameId}!`
     await sendMessage({ email: opponent.email, message, subject: `It's your turn` })
