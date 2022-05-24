@@ -2,6 +2,8 @@ from multiprocessing import get_all_start_methods
 import requests
 import json
 
+BASE_URL = "" #server url
+
 def main():
     #curUser = null
     #curGame = null
@@ -17,7 +19,6 @@ def main():
         init_select = input(">")
         if init_select == "1":
             #login
-            startLoop = True
             print("please enter your email: ")
             usrEmail = input(">")
             print("please enter your password: ")
@@ -25,12 +26,16 @@ def main():
             usrDat = {"email":" usrEmail", "password":"usrPassword"}
             usrDatJson = json.dumps(usrDat)
             payload = {"json_payload":usrDatJson}
-            curUser = requests.post('some url/users', data = payload)
+            curUser = requests.post('BASE_URL/users', data = payload)
             curUserData = json.load(curUser.text)
+            if "message" in curUserData: #error was returned
+                print("Server returned error:")
+                print(curUserData["message"])
+            else
+                startLoop = True
             
         elif init_select == "2":
             #sign up
-            startLoop = True
             print("please enter your new email: ")
             usrEmail = input(">")
             print("please enter your new password: ")
@@ -38,8 +43,13 @@ def main():
             usrDat = {"email":" usrEmail", "password":"usrPassword"}
             usrDatJson = json.dumps(usrDat)
             payload = {"json_payload":usrDatJson}
-            curUser = requests.post('some url/login', data = payload)
+            curUser = requests.post('BASE_URL/login', data = payload)
             curUserData = json.load(curUser.text)
+            if "message" in curUserData: #error was returned
+                print("Server returned error:")
+                print(curUserData["message"])
+            else
+                startLoop = True
         else:
             print("Please enter a valid selection")
     menuLoop = False
@@ -54,14 +64,14 @@ def main():
             gameDat = {"opponent" : opponent}
             usrDatJson = json.dumps(usrDat)
             payload = {"json_payload":usrDatJson, 'apikey': "Do we need this?"}
-            curGame = requests.post('some url/games', data = payload, header = {"authorization" : curUserData["idToken"]})
+            curGame = requests.post('BASE_URL/games', data = payload, header = {"authorization" : curUserData["idToken"]})
             curGameData = json.load(curGame.text)
             
         elif menu_select == 2:
             menuLoop == True
             print("Enter game id: ")
             gameId = input(">")
-            curGame = requests.post('some url/games/' + gameId, header = {"authorization" : curUserData["idToken"]})
+            curGame = requests.post('BASE_URL/games/' + gameId, header = {"authorization" : curUserData["idToken"]})
             curGameData = json.load(curGame.text)
         else:
             print("Please enter a valid selection")
@@ -89,6 +99,17 @@ while entryLoop == False:
         print("Cannot move there! Please select a valid location!")
     else:
         entryLoop = True
+        rint("Please enter the column you want to move in: ")
+    moveColumn = input(">")
+    print("Please enter the row you want to move in: ")
+    moveRow = input(">")
+    if (moveColumn > 3 or moveColumn < 1) or (moveRow > 3 or moveRow < 1):
+        print("Invalid entry. Please enter a value between 1 and 3")
+    elif board [((moveRow)*3) + (moveColumn)] != "0":
+        print("Cannot move there! Please select a valid location!")
+    else:
+        entryLoop = True
+
 
 print("Sending move...")
 send = requests.get() #send move data, will figure out format soon
