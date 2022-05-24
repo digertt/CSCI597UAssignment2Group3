@@ -74,8 +74,8 @@ app.post("/games/:gameId", wrapAsync(async (req, res) => {
   const game = await performMove({
     gameId: req.params.gameId,
     user: token["cognito:username"],
-    changedHeap: req.body.changedHeap,
-    changedHeapValue: req.body.changedHeapValue
+    board: req.body.board,
+    coords: req.body.coords
   });
   let opponentUsername
   if (game.user1 !== game.lastMoveBy) {
