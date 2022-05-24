@@ -9,7 +9,15 @@ const performMove = async ({ gameId, user, board, coords }) => {
   }
   coords = coords - 1
   updatemark = 'X'
-  if ('user1 = :user')
+  try {
+    // pull out the userID of user1, who will play X's
+    const resp = await documentClient.get({TableName: 'turn-based-game', Key: {gameId: gameId}}).promise();
+    user1 = resp.Attributes.user1;
+  } catch (error) {
+    console.log("Error looking up game: ", error.message);
+    throw new Error('Could not perform move')
+  }
+  if (user1 == user)
     updatemark = 'X'
   else
     updatemark = 'O'
@@ -22,7 +30,7 @@ const performMove = async ({ gameId, user, board, coords }) => {
     ConditionExpression: `(user1 = :user OR user2 = :user) AND lastMoveBy <> :user AND ${board[coords]} == ' '`,
     ExpressionAttributeValues: {
       ':user': user,
-      ':coords': coords
+      ':updatemark': updatemark
     },
     ReturnValues: 'ALL_NEW'
   };
