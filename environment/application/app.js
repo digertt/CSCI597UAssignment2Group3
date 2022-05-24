@@ -75,7 +75,6 @@ app.post("/games/:gameId", wrapAsync(async (req, res) => {
   const game = await performMove({
     gameId: req.params.gameId,
     user: token["cognito:username"],
-    board: req.body.board,
     coords: req.body.coords
   });
   let opponentUsername
