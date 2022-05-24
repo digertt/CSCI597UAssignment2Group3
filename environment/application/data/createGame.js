@@ -12,9 +12,7 @@ const createGame = async ({ creator, opponent }) => {
       gameId: uuidv4().split('-')[0],
       user1: creator,
       user2: opponent.email,
-      heap1: 5,
-      heap2: 4,
-      heap3: 5,
+      board: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
       lastMoveBy: creator
     }
   };

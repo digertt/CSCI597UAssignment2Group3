@@ -22,7 +22,7 @@ const performMove = async ({ gameId, user, board, coords }) => {
     ConditionExpression: `(user1 = :user OR user2 = :user) AND lastMoveBy <> :user AND ${board[coords]} == ' '`,
     ExpressionAttributeValues: {
       ':user': user,
-      ':coords': coords,
+      ':updatemark': updatemark,
     },
     ReturnValues: 'ALL_NEW'
   }
