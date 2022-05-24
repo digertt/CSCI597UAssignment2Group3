@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 const sendMessage = require('./sendMessage')
+const documentClient = new AWS.DynamoDB.DocumentClient();
 
 const handlePostMoveNotification = async ({ game, mover, opponent }) => {
   // Handle when game is finished
@@ -21,12 +22,27 @@ const handlePostMoveNotification = async ({ game, mover, opponent }) => {
       sendMessage({ email: mover.email, message: winnerMessage, subject: winnerSubject }),
       sendMessage({ email: opponent.email, message: loserMessage, subject: loserSubject })
     ])
+    try {
+        const resp = await documentClient.delete({TableName: 'turn-based-game-a2', Key: {gameId: game.gameId}}).promise();
+    } catch {
+        console.log("Error looking up game: ", error.message);
+        throw new Error('Could not delete game')
+    }
+
   } else if (!game.board.includes(" ")) {
     const tieMessage = `The game between ${mover.username} and ${opponent.username} ended in a tie!`
     const tieSubject = `It was a tie!`
     await Promise.all([
       sendMessage({ email: opponent.email, message: tieMessage, subject: tieSubject }),
       sendMessage({ email: mover.email, message: tieMessage, subject: tieSubject })
+    ])
+    try {
+        const resp = await documentClient.delete({TableName: 'turn-based-game-a2', Key: {gameId: game.gameId}}).promise();
+    } catch {
+        console.log("Error looking up game: ", error.message);
+        throw new Error('Could not delete game')
+    }
+
   } else {
     const message = `${mover.username} has moved. It's your turn next in Game ID ${game.gameId}!`
     await sendMessage({ email: opponent.email, message, subject: `It's your turn` })
