@@ -29,7 +29,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"myfirstuser\",\n\t\"password\": \"Password1\",\n\t\"email\": \"test@email.com\"\n}"
+					"raw": "{\n\t\"username\": \"anotherUser\",\n\t\"password\": \"Password1\",\n\t\"email\": \"ericbrendanclark@gmail.com\"\n}"
 				},
 				"url": {
 					"raw": "{{BASE_URL}}/users",
@@ -70,7 +70,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"myfirstuser\",\n\t\"password\": \"Password1\"\n}"
+					"raw": "{\n\t\"username\": \"anotherUser\",\n\t\"password\": \"Password1\"\n}"
 				},
 				"url": {
 					"raw": "{{BASE_URL}}/login",
@@ -86,6 +86,21 @@
 		},
 		{
 			"name": "create game",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"add idtoken to env\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"GAME_ID\", jsonData.gameId);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -100,7 +115,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"opponent\": \"theseconduser\"\n}"
+					"raw": "{\n\t\"opponent\": \"bigfat-rock@hotmail.com\"\n}"
 				},
 				"url": {
 					"raw": "{{BASE_URL}}/games",
@@ -154,7 +169,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"changedHeap\": \"heap1\",\n\t\"changedHeapValue\": 0\n}"
+					"raw": "{\n\t\"board\": \"X\",\n\t\"coords\": 3\n}"
 				},
 				"url": {
 					"raw": "{{BASE_URL}}/games/{{GAME_ID}}",
