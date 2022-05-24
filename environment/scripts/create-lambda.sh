@@ -3,11 +3,11 @@
 source env.sh
 
 echo "Building zip file"
-zip -rq application.zip application/
+#zip -rq application.zip application/
 
 echo "Creating IAM role"
 ROLE_ARN=$(aws iam create-role \
-  --role-name Cloud9-turn-based-api-lambda-role \
+  --role-name Cloud9-turn-based-api-lambda-role-a2 \
   --assume-role-policy-document '{
       "Version": "2012-10-17",
       "Statement": [
@@ -25,8 +25,8 @@ ROLE_ARN=$(aws iam create-role \
 
 echo "Adding policy to IAM role"
 POLICY=$(aws iam put-role-policy \
-  --role-name Cloud9-turn-based-api-lambda-role \
-  --policy-name lambda-policy \
+  --role-name Cloud9-turn-based-api-lambda-role-a2 \
+  --policy-name lambda-policy-a2 \
   --policy-document '{
     "Version": "2012-10-17",
     "Statement": [
@@ -61,7 +61,7 @@ echo "Sleeping for IAM role propagation"
 sleep 10
 echo "Creating Lambda function"
 FUNCTION_ARN=$(aws lambda create-function \
-  --function-name turn-based-api \
+  --function-name turn-based-api-a2 \
   --runtime nodejs14.x \
   --role ${ROLE_ARN} \
   --handler application/handler.handler \

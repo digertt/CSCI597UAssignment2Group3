@@ -7,7 +7,7 @@ const sendMessage = require("./sendMessage");
 
 const createGame = async ({ creator, opponent }) => {
   const params = {
-    TableName: "turn-based-game",
+    TableName: "turn-based-game-a2",
     Item: {
       gameId: uuidv4().split('-')[0],
       user1: creator,

@@ -4,7 +4,7 @@ const AWS = require('aws-sdk')
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
 const params = {
-  TableName: 'turn-based-game',
+  TableName: 'turn-based-game-a2',
   Item: {
     gameId: '5b5ee7d8',
     user1: 'myfirstuser',

@@ -1,7 +1,7 @@
 # Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 USER_POOL_ID=$(aws cognito-idp create-user-pool \
-  --pool-name turn-based-users \
+  --pool-name turn-based-users-a2 \
   --policies '
       {
         "PasswordPolicy": {

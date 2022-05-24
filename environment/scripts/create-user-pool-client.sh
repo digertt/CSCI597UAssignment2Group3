@@ -4,7 +4,7 @@ source env.sh
 
 CLIENT_ID=$(aws cognito-idp create-user-pool-client \
   --user-pool-id ${USER_POOL_ID} \
-  --client-name turn-based-backend \
+  --client-name turn-based-backend-a2 \
   --no-generate-secret \
   --explicit-auth-flows ADMIN_NO_SRP_AUTH \
   --query 'UserPoolClient.ClientId' \

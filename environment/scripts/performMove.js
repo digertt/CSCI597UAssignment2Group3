@@ -14,7 +14,7 @@ const performMove = async ({ gameId, user, board, coords }) => {
   else
     updatemark = 'O'
   const params = {
-    TableName: 'turn-based-game',
+    TableName: 'turn-based-game-a2',
     Key: { 
       gameId: gameId
     },

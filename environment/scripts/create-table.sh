@@ -1,7 +1,7 @@
 # Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 aws dynamodb create-table \
-  --table-name turn-based-game \
+  --table-name turn-based-game-a2 \
   --attribute-definitions '[
     {
       "AttributeName": "gameId",

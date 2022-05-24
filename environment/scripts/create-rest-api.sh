@@ -4,7 +4,7 @@ source env.sh
 
 echo "Creating REST API"
 REST_API_ID=$(aws apigateway create-rest-api \
-  --name 'Turn-based API' \
+  --name 'Turn-based API A2' \
   --query 'id' \
   --output text)
 
@@ -50,8 +50,8 @@ ACCOUNT_ID=$(aws sts get-caller-identity \
 
 echo "Adding lambda permission"
 PERMISSION=$(aws lambda add-permission \
-  --function-name turn-based-api \
-  --statement-id api-gateway \
+  --function-name turn-based-api-a2 \
+  --statement-id api-gateway-a2 \
   --action lambda:InvokeFunction \
   --principal apigateway.amazonaws.com \
   --source-arn "arn:aws:execute-api:${AWS_REGION}:${ACCOUNT_ID}:${REST_API_ID}/*/*")

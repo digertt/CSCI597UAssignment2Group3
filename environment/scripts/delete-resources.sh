@@ -12,15 +12,15 @@ API=$(aws apigateway delete-rest-api \
 
 echo "Deleting IAM role"
 POLICY=$(aws iam delete-role-policy \
-  --role-name Cloud9-turn-based-api-lambda-role \
-  --policy-name lambda-policy)
+  --role-name Cloud9-turn-based-api-lambda-role-a2 \
+  --policy-name lambda-policy-a2)
 
 ROLE=$(aws iam delete-role \
-  --role-name Cloud9-turn-based-api-lambda-role)
+  --role-name Cloud9-turn-based-api-lambda-role-a2)
 
 echo "Deleting Lambda function"
 FUNCTION=$(aws lambda delete-function \
-  --function-name turn-based-api)
+  --function-name turn-based-api-a2)
 
 echo "Deleting Amazon Cognito User Pool"
 POOL=$(aws cognito-idp delete-user-pool \
@@ -28,4 +28,4 @@ POOL=$(aws cognito-idp delete-user-pool \
 
 echo "Deleting DynamoDB table"
 TABLE=$(aws dynamodb delete-table \
-  --table-name turn-based-game)
+  --table-name turn-based-game-a2)
