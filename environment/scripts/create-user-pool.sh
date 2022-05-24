@@ -12,19 +12,6 @@ USER_POOL_ID=$(aws cognito-idp create-user-pool \
           "RequireSymbols": false
         }
       }' \
-  --schema '[
-      {
-        "Name": "phone_number",
-        "StringAttributeConstraints": {
-            "MinLength": "0",
-            "MaxLength": "2048"
-        },
-        "DeveloperOnlyAttribute": false,
-        "Required": true,
-        "AttributeDataType": "String",
-        "Mutable": true
-      }
-  ]' \
   --query 'UserPool.Id' \
   --output text)
 
