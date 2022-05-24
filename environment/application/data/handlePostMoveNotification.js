@@ -13,9 +13,9 @@ const handlePostMoveNotification = async ({ game, mover, opponent }) => {
       || (game.board[2] === game.board[5] && game.board[5] === game.board[8] && game.board[8] !== ' ')
       || (game.board[0] === game.board[4] && game.board[4] === game.board[8] && game.board[8] !== ' ')
       || (game.board[2] === game.board[4] && game.board[4] === game.board[6] && game.board[6] !== ' ')) {
-    const winnerMessage = `You beat ${mover.username} in a game of tic tac toe!`
+    const winnerMessage = `You beat ${opponent.username} in a game of tic tac toe!`
     const winnerSubject = `You won!`
-    const loserMessage = `Ahh, you lost to ${opponent.username} in tic tac toe.`
+    const loserMessage = `Ahh, you lost to ${mover.username} in tic tac toe.`
     const loserSubject = `You lost!`
     await Promise.all([
       sendMessage({ email: mover.email, message: winnerMessage, subject: winnerSubject }),
