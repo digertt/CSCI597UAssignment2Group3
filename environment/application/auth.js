@@ -66,11 +66,11 @@ const fetchUserByUsername = async username => {
 
 const fetchUserByEmail = async email => {
   const params = {
-    UserPoolId: process.env.USER_POOL_ID,
-    Email: email
+    UserPoolId: process.env.USER_POOL_ID
   };
-  const user = await cognitoidentityserviceprovider.adminGetUser(params).promise();
-  const username = user.UserAttributes.filter(attribute => attribute.Name === "username")[0].Value;
+  const users = await cognitoidentityserviceprovider.listUsers(params).promise();
+  console.log(users.Users);
+  const username = users.Users.find(elem => elem.Attributes.find(attribute => attribute.Name === "email").Value == email).Username;
   return {
     username,
     email
@@ -100,5 +100,6 @@ module.exports = {
   createCognitoUser,
   login,
   fetchUserByUsername,
+  fetchUserByEmail,
   verifyToken
 };

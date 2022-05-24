@@ -20,7 +20,7 @@ const sendMessage = async ({ email, message, subject }) => {
         Data: subject
       }
     },
-    Source: 'notify@thebesttictactoe.com',
+    Source: 'clarke21@wwu.edu',
   }
 
   return ses.sendEmail(params).promise();

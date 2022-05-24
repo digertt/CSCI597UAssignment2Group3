@@ -7,6 +7,7 @@ const {
   createCognitoUser,
   login,
   fetchUserByUsername,
+  fetchUserByEmail,
   verifyToken
 } = require("./auth");
 const { validateCreateUser, validateCreateGame, validatePerformMove } = require("./validate");
