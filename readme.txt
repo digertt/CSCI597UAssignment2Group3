@@ -6,9 +6,15 @@ Group Members
 API gateway
 	https://q9ziogix3f.execute-api.us-west-1.amazonaws.com/prod
 
+Lambda Function Source and Scripts
+	The source code for the lambda function is in envioronment/application
+	The updated scripts to configure everything in AWS are in environment/scripts
+
 CLI
+	cli is in the environment folder.
 	In the folder containing app-start.py run:
 
+	pip install requests
 	python3 app-start/py
 
 	Then follow printed instructions in the command prompt.
