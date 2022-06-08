@@ -3,7 +3,7 @@ import requests
 import json
 
 
-BASE_URL = "https://q9ziogix3f.execute-api.us-west-1.amazonaws.com/prod" #server url
+BASE_URL = "https://66h22fk3p8.execute-api.us-west-1.amazonaws.com/prod" #server url
 
 def main():
     usrName = ""
