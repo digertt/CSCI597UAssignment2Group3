@@ -42,7 +42,7 @@ def main():
             usrPassword = input(">")
             usrDat = {'username':usrName, 'password':usrPassword, 'email':usrEmail}
             usrDatJson = json.dumps(usrDat)
-            curUser = requests.post(BASE_URL + '/users', data = usrDatJson)
+            curUser = requests.post(BASE_URL + '/users', data = usrDatJson, headers={'Content-Type': 'application/json'})
             curUserData = json.loads(curUser.text)
             if "message" in curUserData: #error was returned
                 print("Server returned error:")
